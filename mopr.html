@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOPR Juice Factory — Pure. Fresh. Alive.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Core palette — deep forest, no white */
+  --forest:     #0D1F0E;
+  --forest-mid: #142818;
+  --forest-rich:#1C3820;
+  --forest-up:  #2A5230;
+  --leaf:       #3D7A42;
+  --leaf-bright:#52A85A;
+  --moss:       #4E6B3C;
+  --citrus:     #E8A020;
+  --citrus-light:#F5C355;
+  --citrus-pale: #2E2208;
+  --cream:      #EDE8DC;
+  --cream-mid:  #D4CEBC;
+  --parchment:  #C8C0A8;
+  --text:       #EDE8DC;
+  --text-muted: #8DAA85;
+  --text-dim:   #5A7554;
+  --border:     rgba(82,168,90,0.15);
+  --border-gold:rgba(232,160,32,0.2);
+  /* Sub brands */
+  --mango:#FF8C00; --mango-dark:#CC6200; --mango-pale:#2A1800;
+  --agni:#E53935;  --agni-dark:#7B1FA2;  --agni-pale:#1A0505;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--forest);color:var(--text);overflow-x:hidden;}
+
+/* ── PAGE SYSTEM ── */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ══ NAV ══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 4rem;
+  background:rgba(13,31,14,0.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo-wrap{display:flex;align-items:center;gap:0.9rem;cursor:pointer;}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.9rem;font-weight:700;color:var(--cream);letter-spacing:0.04em;
+}
+.nav-logo span{color:var(--citrus);}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center;}
+.nav-links a,.nav-links button.nav-link-btn{
+  text-decoration:none;font-size:0.82rem;font-weight:500;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--text-muted);
+  transition:color 0.2s;background:none;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;padding:0;
+}
+.nav-links a:hover,.nav-links button.nav-link-btn:hover{color:var(--citrus);}
+.nav-right{display:flex;align-items:center;gap:0.8rem;}
+.nav-brands{display:flex;gap:0.5rem;}
+.sub-brand-btn{
+  padding:0.38rem 1rem;border-radius:100px;border:1px solid;cursor:pointer;
+  font-size:0.75rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+  font-family:'Outfit',sans-serif;transition:all 0.2s;
+}
+.mango-btn{border-color:rgba(255,140,0,0.4);color:var(--mango);background:rgba(255,140,0,0.06);}
+.mango-btn:hover{background:var(--mango);color:var(--forest);}
+.agni-btn{border-color:rgba(229,57,53,0.4);color:var(--agni);background:rgba(229,57,53,0.06);}
+.agni-btn:hover{background:var(--agni);color:white;}
+.nav-cta{
+  background:var(--citrus);color:var(--forest);
+  padding:0.5rem 1.4rem;border-radius:100px;
+  font-size:0.8rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+  border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;
+}
+.nav-cta:hover{background:var(--citrus-light);transform:translateY(-1px);}
+.nav-cta-dark{background:rgba(255,255,255,0.06);color:var(--text-muted);border:1px solid var(--border);}
+.nav-cta-dark:hover{background:rgba(255,255,255,0.12);color:var(--text);}
+
+/* ══ HERO ══ */
+.hero{
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  padding-top:76px;position:relative;overflow:hidden;
+}
+/* Textured forest background */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(61,122,66,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 10% 80%, rgba(232,160,32,0.06) 0%, transparent 50%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 12px);
+  pointer-events:none;
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:5rem 3rem 5rem 5rem;position:relative;z-index:2;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:0.7rem;
+  margin-bottom:2rem;width:fit-content;
+}
+.eyebrow-line{width:32px;height:1px;background:var(--citrus);}
+.eyebrow-text{
+  font-family:'DM Mono',monospace;font-size:0.72rem;
+  letter-spacing:0.18em;text-transform:uppercase;color:var(--citrus);
+}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.2rem,5.5vw,5.8rem);font-weight:600;line-height:1.0;
+  letter-spacing:-0.02em;color:var(--cream);margin-bottom:1.8rem;
+}
+.hero h1 em{font-style:italic;color:var(--leaf-bright);display:block;}
+.hero-desc{
+  font-size:1rem;line-height:1.85;color:var(--text-muted);
+  max-width:440px;margin-bottom:2.8rem;font-weight:300;
+}
+.hero-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;}
+.btn-primary{
+  background:var(--citrus);color:var(--forest);
+  padding:0.9rem 2.2rem;border-radius:4px;
+  font-size:0.85rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  text-decoration:none;transition:all 0.25s;
+  border:2px solid var(--citrus);display:inline-flex;align-items:center;gap:0.5rem;
+  cursor:pointer;font-family:'Outfit',sans-serif;
+}
+.btn-primary:hover{background:var(--citrus-light);border-color:var(--citrus-light);transform:translateY(-2px);box-shadow:0 12px 30px rgba(232,160,32,0.25);}
+.btn-ghost{
+  color:var(--cream-mid);font-size:0.85rem;font-weight:500;letter-spacing:0.06em;
+  text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;
+  border:1px solid rgba(212,206,188,0.25);padding:0.88rem 1.8rem;border-radius:4px;
+  transition:all 0.25s;background:none;cursor:pointer;font-family:'Outfit',sans-serif;
+  text-transform:uppercase;
+}
+.btn-ghost:hover{border-color:var(--cream-mid);color:var(--cream);}
+.hero-stats{
+  display:flex;gap:3rem;margin-top:3.5rem;
+  padding-top:2.5rem;border-top:1px solid var(--border);
+}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.4rem;font-weight:700;color:var(--citrus);
+  display:block;line-height:1;
+}
+.stat-label{font-size:0.76rem;color:var(--text-dim);margin-top:0.3rem;letter-spacing:0.05em;text-transform:uppercase;}
+
+/* Hero right — rich illustrated panel */
+.hero-right{
+  background:var(--forest-mid);
+  position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  border-left:1px solid var(--border);
+}
+.hero-right::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 70% at 60% 40%, rgba(61,122,66,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 70%, rgba(232,160,32,0.08) 0%, transparent 60%);
+}
+/* Concentric circle decoration */
+.hero-circles{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:500px;height:500px;pointer-events:none;
+}
+.hero-circles circle{fill:none;stroke:rgba(82,168,90,0.1);}
+.bottle-float{position:relative;z-index:3;animation:float 4.5s ease-in-out infinite;}
+.floating-tag{
+  position:absolute;
+  background:var(--forest-rich);border:1px solid var(--border);
+  border-radius:12px;padding:0.65rem 1rem;
+  display:flex;align-items:center;gap:0.6rem;font-size:0.8rem;font-weight:500;z-index:4;
+  color:var(--text-muted);backdrop-filter:blur(8px);
+}
+.tag-icon{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;}
+.tag1{top:20%;left:6%;}
+.tag2{top:42%;right:5%;}
+.tag3{bottom:24%;left:8%;}
+
+/* ══ MARQUEE ══ */
+.marquee-section{
+  background:linear-gradient(90deg,var(--forest-rich),var(--forest-up),var(--forest-rich));
+  padding:1rem 0;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.marquee-track{display:flex;gap:0;animation:marquee 20s linear infinite;white-space:nowrap;}
+.marquee-item{
+  display:inline-flex;align-items:center;gap:0.8rem;padding:0 2.5rem;
+  color:var(--text-muted);font-size:0.78rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+}
+.marquee-dot{color:var(--citrus);font-size:0.9rem;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ══ SECTIONS COMMON ══ */
+.section{padding:7rem 5rem;}
+.section-label{
+  font-size:0.7rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--citrus);margin-bottom:1rem;
+  display:flex;align-items:center;gap:0.8rem;
+}
+.section-label::before{content:'';display:block;width:28px;height:1px;background:var(--citrus);}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3vw,3.4rem);font-weight:600;line-height:1.1;
+  color:var(--cream);letter-spacing:-0.02em;margin-bottom:1.5rem;
+}
+
+/* ══ ABOUT ══ */
+.about{background:var(--forest-mid);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.about-visual{
+  background:var(--forest-rich);
+  border:1px solid var(--border);border-radius:4px;
+  aspect-ratio:4/5;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.about-visual::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 60% at 50% 40%, rgba(61,122,66,0.2) 0%, transparent 70%);
+}
+.about-big-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:7rem;font-weight:700;color:rgba(82,168,90,0.12);
+  letter-spacing:-4px;line-height:1;position:absolute;top:40%;left:50%;
+  transform:translate(-50%,-50%);text-align:center;
+}
+.about-big-logo span{color:rgba(232,160,32,0.18);}
+.about-rings{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);}
+.about-inner-card{
+  position:absolute;bottom:1.8rem;left:1.8rem;right:1.8rem;
+  background:rgba(13,31,14,0.85);border:1px solid var(--border);
+  border-radius:8px;padding:1.4rem 1.6rem;backdrop-filter:blur(12px);
+}
+.acard-row{display:flex;align-items:center;justify-content:space-between;}
+.acard-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:600;color:var(--cream);
+}
+.acard-badge{
+  background:rgba(61,122,66,0.2);color:var(--leaf-bright);
+  font-size:0.7rem;font-weight:600;padding:0.25rem 0.7rem;
+  border-radius:100px;border:1px solid rgba(82,168,90,0.3);letter-spacing:0.05em;
+}
+.acard-sub{font-size:0.8rem;color:var(--text-dim);margin-top:0.3rem;}
+.acard-bar{height:4px;border-radius:10px;background:rgba(82,168,90,0.12);margin-top:0.8rem;overflow:hidden;}
+.acard-fill{height:100%;background:linear-gradient(90deg,var(--leaf),var(--leaf-bright));border-radius:10px;width:78%;}
+.about-text p{font-size:0.98rem;line-height:1.9;color:var(--text-muted);font-weight:300;margin-bottom:1.2rem;}
+.about-pillars{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem;}
+.pillar{
+  background:var(--forest-rich);border:1px solid var(--border);
+  border-radius:4px;padding:1.4rem;transition:border-color 0.2s,transform 0.2s;
+}
+.pillar:hover{border-color:rgba(82,168,90,0.4);transform:translateY(-3px);}
+.pillar-icon{font-size:1.4rem;margin-bottom:0.6rem;}
+.pillar h4{font-size:0.88rem;font-weight:600;color:var(--cream);margin-bottom:0.3rem;letter-spacing:0.04em;}
+.pillar p{font-size:0.8rem;color:var(--text-dim);line-height:1.6;}
+
+/* ══ SUB BRANDS ══ */
+.sub-brands-section{padding:6rem 5rem;background:var(--forest);}
+.sub-brands-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;}
+.sub-brand-card{
+  border-radius:4px;overflow:hidden;cursor:pointer;
+  transition:transform 0.3s,box-shadow 0.3s;position:relative;min-height:320px;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:2.5rem;
+}
+.sub-brand-card:hover{transform:translateY(-6px);box-shadow:0 30px 70px rgba(0,0,0,0.4);}
+.mango-card{background:linear-gradient(145deg,#2A1200,#5C2A00,#FF8C00 200%);}
+.agni-card{background:linear-gradient(145deg,#1A0505,#5C0A0A,#E53935 200%);}
+.sbc-bg{
+  position:absolute;inset:0;opacity:0.07;font-size:14rem;
+  display:flex;align-items:center;justify-content:center;line-height:1;pointer-events:none;
+}
+.sbc-badge{
+  background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);
+  font-size:0.68rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;
+  padding:0.3rem 0.8rem;border-radius:100px;display:inline-block;
+  margin-bottom:0.8rem;border:1px solid rgba(255,255,255,0.2);
+}
+.sbc-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.4rem;font-weight:700;color:white;margin-bottom:0.5rem;
+}
+.sbc-desc{font-size:0.88rem;color:rgba(255,255,255,0.6);margin-bottom:1.5rem;line-height:1.7;}
+.sbc-btn{
+  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);
+  border-radius:4px;padding:0.65rem 1.6rem;
+  font-size:0.8rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  cursor:pointer;font-family:'Outfit',sans-serif;color:white;
+  display:inline-flex;align-items:center;gap:0.4rem;transition:all 0.2s;
+}
+.sbc-btn:hover{background:rgba(255,255,255,0.22);}
+
+/* ══ PRODUCTS ══ */
+.products-section{background:var(--forest-rich);padding:7rem 5rem;}
+.products-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3.5rem;}
+.products-header p{color:var(--text-dim);font-size:0.95rem;max-width:320px;line-height:1.7;}
+.see-all{
+  color:var(--citrus);font-size:0.82rem;font-weight:500;text-decoration:none;
+  letter-spacing:0.08em;text-transform:uppercase;
+  border-bottom:1px solid rgba(232,160,32,0.3);padding-bottom:2px;
+}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.product-card{
+  border-radius:4px;overflow:hidden;position:relative;cursor:pointer;
+  transition:transform 0.3s,box-shadow 0.3s;border:1px solid rgba(255,255,255,0.06);
+}
+.product-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,0.4);}
+.pc-bg{
+  aspect-ratio:3/4;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;padding:1.5rem;position:relative;
+}
+.pc-emoji{
+  font-size:4rem;position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-60%);
+  filter:drop-shadow(0 8px 20px rgba(0,0,0,0.3));transition:transform 0.3s;
+}
+.product-card:hover .pc-emoji{transform:translate(-50%,-65%) scale(1.12);}
+.pc-info{position:relative;z-index:2;width:100%;}
+.pc-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:white;margin-bottom:0.2rem;}
+.pc-desc{font-size:0.76rem;color:rgba(255,255,255,0.55);margin-bottom:0.8rem;line-height:1.5;}
+.pc-bottom{display:flex;align-items:center;justify-content:space-between;}
+.pc-price{
+  font-size:1rem;font-weight:600;color:var(--citrus-light);
+  font-family:'Cormorant Garamond',serif;font-size:1.2rem;
+}
+.pc-add{
+  width:34px;height:34px;border-radius:4px;
+  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);
+  color:white;display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;cursor:pointer;transition:all 0.2s;
+}
+.pc-add:hover{background:var(--citrus);border-color:var(--citrus);color:var(--forest);}
+.card-green{background:linear-gradient(160deg,#0E3D12,#1A6320,#267A2A);}
+.card-orange{background:linear-gradient(160deg,#3D1A00,#7A3500,#B05500);}
+.card-red{background:linear-gradient(160deg,#3D0E0E,#7A1A1A,#A02020);}
+.card-yellow{background:linear-gradient(160deg,#2E2000,#5A3E00,#8A6000);}
+
+/* ══ PROCESS ══ */
+.process-section{padding:7rem 5rem;background:var(--forest-mid);}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:4rem;}
+.process-step{position:relative;}
+.step-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:5rem;font-weight:700;color:rgba(82,168,90,0.07);
+  line-height:1;margin-bottom:-1.2rem;display:block;
+}
+.step-icon-wrap{
+  width:56px;height:56px;border-radius:4px;
+  background:rgba(61,122,66,0.15);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;margin-bottom:1.2rem;position:relative;z-index:1;
+  transition:transform 0.2s,background 0.2s;
+}
+.process-step:hover .step-icon-wrap{
+  transform:translateY(-4px);
+  background:rgba(61,122,66,0.28);
+  border-color:rgba(82,168,90,0.35);
+}
+.process-step h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:600;margin-bottom:0.5rem;color:var(--cream);
+}
+.process-step p{font-size:0.85rem;color:var(--text-dim);line-height:1.75;}
+.step-connector{
+  position:absolute;top:86px;left:100%;width:100%;
+  border-top:1px dashed rgba(82,168,90,0.15);transform:translateX(-50%);
+}
+.process-step:last-child .step-connector{display:none;}
+
+/* ══ TESTIMONIALS ══ */
+.testimonials-section{background:var(--forest);padding:7rem 5rem;}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:3.5rem;}
+.tcard{
+  background:var(--forest-rich);border:1px solid var(--border);
+  border-radius:4px;padding:2rem;transition:transform 0.2s,border-color 0.2s;
+}
+.tcard:hover{transform:translateY(-4px);border-color:rgba(82,168,90,0.3);}
+.tcard-stars{color:var(--citrus);font-size:0.85rem;margin-bottom:1rem;letter-spacing:3px;}
+.tcard q{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;font-style:italic;color:var(--cream);
+  line-height:1.7;display:block;margin-bottom:1.5rem;
+}
+.tcard-author{display:flex;align-items:center;gap:0.8rem;}
+.tcard-avatar{
+  width:38px;height:38px;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.82rem;font-weight:600;flex-shrink:0;
+}
+.av1{background:rgba(61,122,66,0.3);color:var(--leaf-bright);border:1px solid rgba(82,168,90,0.3);}
+.av2{background:rgba(192,57,43,0.25);color:#E57368;border:1px solid rgba(192,57,43,0.3);}
+.av3{background:rgba(26,82,118,0.3);color:#5DADE2;border:1px solid rgba(26,82,118,0.3);}
+.tcard-name{font-size:0.88rem;font-weight:600;color:var(--cream);letter-spacing:0.03em;}
+.tcard-role{font-size:0.76rem;color:var(--text-dim);margin-top:0.1rem;}
+
+/* ══ CONTACT ══ */
+.contact-section{padding:7rem 5rem;background:var(--forest-mid);}
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;margin-top:3rem;}
+.contact-info-card{
+  background:var(--forest-rich);border:1px solid var(--border);
+  border-radius:4px;padding:3rem;
+  position:relative;overflow:hidden;
+}
+.contact-info-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--leaf),var(--citrus),transparent);
+}
+.contact-info-card h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:600;margin-bottom:0.5rem;color:var(--cream);
+}
+.contact-info-card>p{font-size:0.88rem;color:var(--text-dim);margin-bottom:2.5rem;line-height:1.7;}
+.contact-item{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.6rem;}
+.contact-icon{
+  width:42px;height:42px;
+  background:rgba(61,122,66,0.12);border:1px solid var(--border);
+  border-radius:4px;display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.contact-item h4{font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.3rem;}
+.contact-item p{font-size:0.9rem;color:var(--text-muted);margin-bottom:0;}
+.contact-item a{color:var(--leaf-bright);text-decoration:none;}
+/* Form */
+.contact-form-wrap{display:flex;flex-direction:column;gap:1.1rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;}
+.form-group label{font-size:0.75rem;font-weight:500;color:var(--text-dim);letter-spacing:0.08em;text-transform:uppercase;}
+.form-group input,.form-group textarea,.form-group select{
+  padding:0.85rem 1.1rem;
+  border:1px solid rgba(82,168,90,0.15);border-radius:4px;
+  font-family:'Outfit',sans-serif;font-size:0.9rem;
+  color:var(--cream);background:var(--forest-rich);
+  transition:border-color 0.2s,box-shadow 0.2s;outline:none;
+}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--text-dim);}
+.form-group select option{background:var(--forest-rich);color:var(--cream);}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  border-color:rgba(82,168,90,0.4);
+  box-shadow:0 0 0 3px rgba(61,122,66,0.1);
+}
+.form-group textarea{resize:vertical;min-height:120px;}
+.form-submit{
+  background:var(--citrus);color:var(--forest);border:none;
+  border-radius:4px;padding:0.9rem 2.4rem;
+  font-size:0.82rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;align-self:flex-start;
+}
+.form-submit:hover{background:var(--citrus-light);transform:translateY(-2px);}
+
+/* ══ CTA ══ */
+.cta-section{
+  background:var(--forest-up);padding:7rem 5rem;text-align:center;
+  position:relative;overflow:hidden;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.cta-section::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 70% at 50% 50%, rgba(232,160,32,0.06) 0%, transparent 70%);
+}
+.cta-bg-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Cormorant Garamond',serif;font-size:18rem;font-weight:700;
+  color:rgba(255,255,255,0.025);white-space:nowrap;pointer-events:none;letter-spacing:-5px;line-height:1;
+}
+.cta-section .section-label{justify-content:center;}
+.cta-section p{color:var(--text-dim);font-size:1rem;max-width:480px;margin:1.5rem auto 2.5rem;line-height:1.8;}
+.cta-buttons{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;}
+.btn-outline-cream{
+  color:var(--cream-mid);border:1px solid rgba(212,206,188,0.25);
+  padding:0.9rem 2.4rem;border-radius:4px;
+  font-size:0.82rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+  text-decoration:none;transition:all 0.2s;background:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;
+}
+.btn-outline-cream:hover{border-color:rgba(212,206,188,0.5);color:var(--cream);}
+
+/* ══ FOOTER ══ */
+footer{background:var(--forest);padding:4rem 5rem 2.5rem;border-top:1px solid var(--border);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+.footer-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.9rem;font-weight:700;color:var(--cream);letter-spacing:0.04em;display:inline-block;margin-bottom:1rem;
+}
+.footer-logo span{color:var(--citrus);}
+.footer-brand p{font-size:0.85rem;color:var(--text-dim);line-height:1.8;max-width:280px;}
+.footer-col h4{font-size:0.7rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1.2rem;}
+.footer-col a,.footer-col button.footer-link{
+  display:block;font-size:0.88rem;color:var(--text-muted);
+  text-decoration:none;margin-bottom:0.7rem;transition:color 0.2s;
+  background:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;text-align:left;padding:0;
+}
+.footer-col a:hover,.footer-col button.footer-link:hover{color:var(--citrus);}
+.footer-bottom{
+  border-top:1px solid var(--border);padding-top:2rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-bottom p{font-size:0.78rem;color:var(--text-dim);}
+.social-links{display:flex;gap:0.6rem;}
+.social-link{
+  width:34px;height:34px;border-radius:4px;
+  border:1px solid rgba(82,168,90,0.2);
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;font-size:0.78rem;color:var(--text-dim);
+  transition:all 0.2s;font-weight:600;
+}
+.social-link:hover{border-color:var(--citrus);color:var(--citrus);}
+
+/* ══ MODAL ══ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:var(--forest-mid);border:1px solid var(--border);
+  border-radius:4px;width:100%;max-width:440px;padding:2.8rem;position:relative;
+  animation:modalIn 0.3s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(0.97);}to{opacity:1;transform:none;}}
+.modal-close{
+  position:absolute;top:1.2rem;right:1.4rem;
+  background:none;border:none;font-size:1.4rem;cursor:pointer;
+  color:var(--text-dim);line-height:1;transition:color 0.2s;
+}
+.modal-close:hover{color:var(--cream);}
+.modal-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:700;color:var(--cream);
+  text-align:center;margin-bottom:0.3rem;
+}
+.modal-logo span{color:var(--citrus);}
+.modal-subtitle{text-align:center;font-size:0.85rem;color:var(--text-dim);margin-bottom:2rem;}
+.modal-tabs{display:flex;gap:0;margin-bottom:2rem;border-bottom:1px solid var(--border);}
+.modal-tab{
+  flex:1;padding:0.7rem;background:none;border:none;
+  font-family:'Outfit',sans-serif;font-size:0.85rem;font-weight:500;
+  color:var(--text-dim);cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;
+}
+.modal-tab.active{color:var(--citrus);border-bottom-color:var(--citrus);}
+.modal-form{display:none;flex-direction:column;gap:1rem;}
+.modal-form.active{display:flex;}
+.modal-btn{
+  background:var(--citrus);color:var(--forest);border:none;
+  border-radius:4px;padding:0.85rem;
+  font-size:0.85rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  cursor:pointer;font-family:'Outfit',sans-serif;margin-top:0.5rem;transition:all 0.2s;
+}
+.modal-btn:hover{background:var(--citrus-light);}
+.modal-divider{text-align:center;font-size:0.8rem;color:var(--text-dim);position:relative;}
+.modal-divider::before,.modal-divider::after{content:'';position:absolute;top:50%;width:38%;height:1px;background:var(--border);}
+.modal-divider::before{left:0;}.modal-divider::after{right:0;}
+.modal-google{
+  width:100%;border:1px solid var(--border);border-radius:4px;
+  padding:0.75rem;background:var(--forest-rich);
+  font-family:'Outfit',sans-serif;font-size:0.88rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:0.6rem;
+  transition:border-color 0.2s;color:var(--text-muted);
+}
+.modal-google:hover{border-color:rgba(82,168,90,0.4);color:var(--cream);}
+
+/* ══ ADMIN PAGE ══ */
+.admin-page{background:#0E1A0E;}
+.admin-nav{
+  background:rgba(13,26,14,0.95);padding:1rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;border-bottom:1px solid var(--border);
+}
+.admin-nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--cream);}
+.admin-nav-logo span{color:var(--citrus);}
+.admin-nav-right{display:flex;align-items:center;gap:1rem;}
+.admin-badge{background:rgba(232,160,32,0.12);color:var(--citrus);font-size:0.7rem;font-weight:600;padding:0.25rem 0.7rem;border-radius:100px;letter-spacing:0.06em;}
+.admin-back-btn{color:var(--text-dim);background:none;border:1px solid var(--border);border-radius:4px;padding:0.4rem 0.9rem;font-size:0.8rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;}
+.admin-back-btn:hover{color:var(--cream);border-color:rgba(82,168,90,0.35);}
+.admin-body{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 60px);}
+.admin-sidebar{background:var(--forest-mid);border-right:1px solid var(--border);padding:2rem 0;}
+.admin-sidebar-label{font-size:0.68rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-dim);padding:0.5rem 1.5rem;margin-top:0.5rem;}
+.admin-sidebar-link{
+  display:flex;align-items:center;gap:0.7rem;padding:0.7rem 1.5rem;
+  font-size:0.85rem;color:var(--text-muted);cursor:pointer;
+  border-left:2px solid transparent;transition:all 0.15s;
+  background:none;border-top:none;border-right:none;border-bottom:none;
+  width:100%;text-align:left;font-family:'Outfit',sans-serif;
+}
+.admin-sidebar-link:hover,.admin-sidebar-link.active{color:var(--leaf-bright);background:rgba(61,122,66,0.08);border-left-color:var(--leaf);}
+.admin-content{padding:2.5rem;background:var(--forest);}
+.admin-header{margin-bottom:2rem;}
+.admin-header h1{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--cream);}
+.admin-header p{color:var(--text-dim);font-size:0.88rem;margin-top:0.3rem;}
+.admin-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:2.5rem;}
+.admin-stat{background:var(--forest-mid);border-radius:4px;padding:1.5rem;border:1px solid var(--border);}
+.admin-stat-label{font-size:0.75rem;color:var(--text-dim);font-weight:500;margin-bottom:0.5rem;letter-spacing:0.06em;text-transform:uppercase;}
+.admin-stat-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--cream);}
+.admin-stat-trend{font-size:0.76rem;margin-top:0.4rem;}
+.trend-up{color:#52A85A;}.trend-down{color:#E57368;}
+.admin-table-card{background:var(--forest-mid);border-radius:4px;border:1px solid var(--border);overflow:hidden;margin-bottom:2rem;}
+.admin-table-head{padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.admin-table-head h3{font-size:0.95rem;font-weight:600;color:var(--cream);}
+table{width:100%;border-collapse:collapse;}
+th{font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);padding:0.9rem 1.5rem;text-align:left;border-bottom:1px solid var(--border);}
+td{padding:0.9rem 1.5rem;font-size:0.86rem;color:var(--text-muted);border-bottom:1px solid rgba(82,168,90,0.06);}
+tr:last-child td{border-bottom:none;}
+.status-badge{font-size:0.7rem;font-weight:600;padding:0.22rem 0.65rem;border-radius:100px;letter-spacing:0.04em;}
+.status-delivered{background:rgba(82,168,90,0.12);color:var(--leaf-bright);border:1px solid rgba(82,168,90,0.2);}
+.status-processing{background:rgba(232,160,32,0.1);color:var(--citrus);border:1px solid rgba(232,160,32,0.2);}
+.status-pending{background:rgba(255,255,255,0.05);color:var(--text-dim);border:1px solid var(--border);}
+.admin-action-btn{background:none;border:1px solid var(--border);border-radius:4px;padding:0.28rem 0.7rem;font-size:0.76rem;cursor:pointer;color:var(--text-dim);font-family:'Outfit',sans-serif;transition:all 0.15s;}
+.admin-action-btn:hover{border-color:rgba(82,168,90,0.35);color:var(--leaf-bright);}
+
+/* ══ PAYMENT PAGE ══ */
+.payment-page{background:var(--forest);}
+.payment-nav{
+  background:rgba(13,31,14,0.9);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);padding:1rem 4rem;
+  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;
+}
+.payment-steps{display:flex;align-items:center;gap:0.5rem;}
+.pstep{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--text-dim);}
+.pstep.active{color:var(--leaf-bright);font-weight:600;}
+.pstep-num{width:24px;height:24px;border-radius:4px;background:rgba(82,168,90,0.08);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:600;}
+.pstep.active .pstep-num,.pstep.done .pstep-num{background:var(--leaf);color:white;}
+.pstep-line{width:32px;height:1px;background:var(--border);}
+.payment-body{max-width:1000px;margin:3rem auto;padding:0 2rem;display:grid;grid-template-columns:1fr 380px;gap:2rem;}
+.payment-main{display:flex;flex-direction:column;gap:1.5rem;}
+.payment-card{background:var(--forest-mid);border-radius:4px;padding:2rem;border:1px solid var(--border);}
+.payment-card h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;margin-bottom:1.5rem;color:var(--cream);}
+.pay-methods{display:flex;gap:0.7rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.pay-method-btn{
+  padding:0.6rem 1.1rem;border-radius:4px;border:1px solid var(--border);
+  background:var(--forest-rich);font-family:'Outfit',sans-serif;font-size:0.82rem;
+  cursor:pointer;display:flex;align-items:center;gap:0.5rem;transition:all 0.2s;
+  color:var(--text-muted);font-weight:500;
+}
+.pay-method-btn.selected{border-color:rgba(82,168,90,0.4);background:rgba(61,122,66,0.1);color:var(--leaf-bright);}
+.pay-method-btn:hover{border-color:rgba(82,168,90,0.3);}
+.card-fields{display:flex;flex-direction:column;gap:1rem;}
+.order-summary{background:var(--forest-mid);border-radius:4px;padding:2rem;border:1px solid var(--border);position:sticky;top:90px;}
+.order-summary h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;margin-bottom:1.5rem;color:var(--cream);}
+.order-item{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+.order-item-img{width:50px;height:50px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;flex-shrink:0;border:1px solid var(--border);}
+.order-item-name{font-size:0.9rem;font-weight:500;color:var(--cream);}
+.order-item-sub{font-size:0.76rem;color:var(--text-dim);}
+.order-item-price{font-size:0.95rem;font-weight:600;color:var(--citrus);}
+.order-line{display:flex;justify-content:space-between;font-size:0.86rem;padding:0.5rem 0;color:var(--text-muted);}
+.order-line.total{font-weight:700;font-size:1rem;border-top:1px solid var(--border);padding-top:1rem;margin-top:0.5rem;color:var(--cream);}
+.order-total-price{color:var(--citrus);}
+.pay-btn{
+  background:var(--citrus);color:var(--forest);border:none;border-radius:4px;padding:1rem;
+  font-size:0.88rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  cursor:pointer;font-family:'Outfit',sans-serif;width:100%;margin-top:1.5rem;
+  transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:0.5rem;
+}
+.pay-btn:hover{background:var(--citrus-light);transform:translateY(-2px);}
+.secure-note{display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.75rem;color:var(--text-dim);margin-top:1rem;}
+
+/* ══ MANGO KING ══ */
+.mango-page{background:#120800;}
+.mango-nav{background:rgba(18,8,0,0.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,140,0,0.12);padding:1rem 4rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.mango-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--mango);letter-spacing:0.02em;}
+.mango-logo small{display:block;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;font-family:'Outfit',sans-serif;font-weight:500;color:rgba(255,140,0,0.4);}
+.mango-nav-links{display:flex;gap:1.5rem;}
+.mango-nav-links a{color:rgba(255,140,0,0.5);text-decoration:none;font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;}
+.mango-nav-links a:hover{color:var(--mango);}
+.mango-back-btn{background:rgba(255,140,0,0.08);color:rgba(255,140,0,0.7);border:1px solid rgba(255,140,0,0.2);border-radius:4px;padding:0.45rem 1.1rem;font-size:0.78rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;letter-spacing:0.06em;text-transform:uppercase;}
+.mango-back-btn:hover{background:rgba(255,140,0,0.15);color:var(--mango);}
+.mango-hero{min-height:75vh;background:linear-gradient(135deg,#0D0500,#2A1200,#4A2000);display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:4rem 5rem;gap:3rem;}
+.mango-hero-left h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4.8rem);font-weight:600;color:white;line-height:1.02;letter-spacing:-0.03em;margin-bottom:1.2rem;}
+.mango-hero-left h1 em{font-style:italic;color:var(--mango);}
+.mango-hero-left p{font-size:0.95rem;color:rgba(255,255,255,0.5);line-height:1.85;margin-bottom:2rem;max-width:420px;}
+.mango-hero-right{display:flex;justify-content:center;}
+.mango-big-emoji{font-size:11rem;filter:drop-shadow(0 30px 50px rgba(255,140,0,0.3));animation:float 3.5s ease-in-out infinite;}
+.mango-products-section{padding:6rem 5rem;background:#0D0500;}
+.mango-section-label{font-size:0.7rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--mango);margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem;}
+.mango-section-label::before{content:'';display:block;width:28px;height:1px;background:var(--mango);}
+.mango-section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3vw,3rem);font-weight:600;color:white;letter-spacing:-0.02em;margin-bottom:3rem;}
+.mango-products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.mango-card{border-radius:4px;overflow:hidden;cursor:pointer;transition:transform 0.3s;border:1px solid rgba(255,140,0,0.08);}
+.mango-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(255,140,0,0.15);}
+.mango-card-bg{padding:3rem 2rem 2rem;min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;}
+.mango-card-emoji{font-size:5rem;text-align:center;margin-bottom:1.5rem;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.3));}
+.mango-card-tag{font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:0.4rem;}
+.mango-card-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:white;margin-bottom:0.3rem;}
+.mango-card-desc{font-size:0.82rem;color:rgba(255,255,255,0.5);margin-bottom:1rem;line-height:1.6;}
+.mango-card-footer{display:flex;align-items:center;justify-content:space-between;}
+.mango-card-price{color:white;font-size:1.1rem;font-weight:600;font-family:'Cormorant Garamond',serif;}
+.mango-add-btn{width:34px;height:34px;border-radius:4px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.mango-add-btn:hover{background:var(--mango);border-color:var(--mango);color:var(--forest);}
+.bg-mango-1{background:linear-gradient(160deg,#2A0E00,#663300,#994400);}
+.bg-mango-2{background:linear-gradient(160deg,#1F0B00,#4D2600,#804000);}
+.bg-mango-3{background:linear-gradient(160deg,#240C00,#592B00,#8A3F00);}
+.mango-info-section{background:#0A0400;padding:5rem;}
+.mango-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.mango-info-card{background:#150800;border-radius:4px;padding:2rem;border:1px solid rgba(255,140,0,0.1);text-align:center;}
+.mango-info-icon{font-size:2.5rem;margin-bottom:1rem;}
+.mango-info-card h4{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;margin-bottom:0.5rem;color:white;}
+.mango-info-card p{font-size:0.84rem;color:rgba(255,255,255,0.4);line-height:1.7;}
+
+/* ══ AGNI ══ */
+.agni-page{background:#0D0303;}
+.agni-nav{background:rgba(13,3,3,0.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(229,57,53,0.12);padding:1rem 4rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.agni-logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--agni);letter-spacing:0.08em;text-transform:uppercase;}
+.agni-logo small{display:block;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;font-family:'Outfit',sans-serif;font-weight:500;color:rgba(229,57,53,0.35);}
+.agni-nav-links{display:flex;gap:1.5rem;}
+.agni-nav-links a{color:rgba(229,57,53,0.5);text-decoration:none;font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;}
+.agni-nav-links a:hover{color:var(--agni);}
+.agni-back-btn{background:rgba(229,57,53,0.08);color:rgba(229,57,53,0.6);border:1px solid rgba(229,57,53,0.2);border-radius:4px;padding:0.45rem 1.1rem;font-size:0.78rem;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;letter-spacing:0.06em;text-transform:uppercase;}
+.agni-back-btn:hover{background:var(--agni);color:white;}
+.agni-hero{min-height:100vh;background:#0D0303;position:relative;overflow:hidden;display:flex;align-items:center;padding:0 5rem;}
+.agni-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 65% 45%, rgba(229,57,53,0.14) 0%, transparent 65%);}
+.agni-hero-sparks{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.spark{position:absolute;width:3px;height:3px;border-radius:50%;animation:sparkle 3s ease-in-out infinite;}
+@keyframes sparkle{0%,100%{opacity:0;transform:scale(0);}50%{opacity:1;transform:scale(1);}}
+.agni-hero-content{position:relative;z-index:2;max-width:600px;}
+.agni-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(229,57,53,0.08);border:1px solid rgba(229,57,53,0.2);color:var(--agni);border-radius:4px;font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 1rem;margin-bottom:2rem;}
+.agni-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:600;line-height:1.0;letter-spacing:-0.03em;color:white;margin-bottom:1.5rem;}
+.agni-hero h1 em{font-style:italic;color:var(--agni);}
+.agni-hero p{font-size:0.95rem;line-height:1.85;color:rgba(255,255,255,0.4);margin-bottom:2.5rem;max-width:460px;}
+.agni-hero-visual{position:absolute;right:5rem;top:50%;transform:translateY(-50%);font-size:14rem;filter:drop-shadow(0 0 80px rgba(229,57,53,0.35));animation:float 3s ease-in-out infinite;z-index:2;}
+.btn-agni{background:var(--agni);color:white;padding:0.9rem 2.2rem;border-radius:4px;font-size:0.85rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;font-family:'Outfit',sans-serif;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.2s;text-decoration:none;}
+.btn-agni:hover{background:#C62828;transform:translateY(-2px);box-shadow:0 12px 30px rgba(229,57,53,0.3);}
+.agni-products-section{padding:6rem 5rem;background:#0D0303;}
+.agni-section-label{font-size:0.7rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--agni);margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem;}
+.agni-section-label::before{content:'';display:block;width:28px;height:1px;background:var(--agni);}
+.agni-section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3vw,3rem);font-weight:600;color:white;letter-spacing:-0.02em;margin-bottom:3rem;}
+.agni-section-title em{font-style:italic;color:var(--agni);}
+.agni-products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.agni-card{border-radius:4px;overflow:hidden;cursor:pointer;transition:transform 0.3s;border:1px solid rgba(229,57,53,0.07);}
+.agni-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(229,57,53,0.15);}
+.agni-card-inner{padding:2.5rem 1.8rem 1.8rem;min-height:320px;display:flex;flex-direction:column;justify-content:flex-end;}
+.agni-card-emoji{font-size:4rem;margin-bottom:auto;padding-top:1rem;text-align:center;}
+.agni-card-flavor{font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.3rem;margin-top:1.5rem;}
+.agni-card-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:white;margin-bottom:0.25rem;}
+.agni-card-desc{font-size:0.78rem;color:rgba(255,255,255,0.45);margin-bottom:0.8rem;line-height:1.6;}
+.agni-card-row{display:flex;align-items:center;justify-content:space-between;}
+.agni-card-price{color:white;font-size:1.1rem;font-weight:600;font-family:'Cormorant Garamond',serif;}
+.agni-add{width:32px;height:32px;border-radius:4px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.agni-add:hover{background:var(--agni);border-color:var(--agni);}
+.bg-agni-1{background:linear-gradient(160deg,#3A0808,#7A1515,#A01A1A);}
+.bg-agni-2{background:linear-gradient(160deg,#2E1200,#6A2C00,#8A4A00);}
+.bg-agni-3{background:linear-gradient(160deg,#050A2E,#0E1A5C,#1A2080);}
+.bg-agni-4{background:linear-gradient(160deg,#2A0520,#5C0A44,#7A0A55);}
+.agni-features{padding:5rem;background:#0A0202;}
+.agni-features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.agni-feature{background:rgba(229,57,53,0.04);border:1px solid rgba(229,57,53,0.1);border-radius:4px;padding:2rem;}
+.agni-feature-icon{font-size:2rem;margin-bottom:1rem;}
+.agni-feature h4{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:white;margin-bottom:0.5rem;}
+.agni-feature p{font-size:0.84rem;color:rgba(255,255,255,0.4);line-height:1.7;}
+
+/* ══ ANIMATIONS ══ */
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.hero-eyebrow{animation:fadeInUp 0.6s ease both;}
+.hero h1{animation:fadeInUp 0.7s 0.1s ease both;}
+.hero-desc{animation:fadeInUp 0.7s 0.2s ease both;}
+.hero-actions{animation:fadeInUp 0.7s 0.3s ease both;}
+.hero-stats{animation:fadeInUp 0.7s 0.4s ease both;}
+.bottle-float{animation:float 4.5s ease-in-out infinite;}
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1024px){
+  nav{padding:1rem 2rem;}
+  .nav-brands{display:none;}
+  .hero{grid-template-columns:1fr;}
+  .hero-right{min-height:50vh;}
+  .hero-left{padding:4rem 2rem 3rem;}
+  .section{padding:5rem 2rem;}
+  .about-grid,.sub-brands-grid,.contact-grid{grid-template-columns:1fr;}
+  .products-grid,.process-grid{grid-template-columns:repeat(2,1fr);}
+  .testimonials-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
+  .admin-body{grid-template-columns:1fr;}
+  .admin-sidebar{display:none;}
+  .admin-stats-grid{grid-template-columns:repeat(2,1fr);}
+  .payment-body{grid-template-columns:1fr;}
+  .mango-hero,.agni-hero{grid-template-columns:1fr;padding:3rem 2rem;}
+  .mango-products-grid,.agni-features-grid,.mango-info-grid{grid-template-columns:1fr;}
+  .agni-products-grid{grid-template-columns:repeat(2,1fr);}
+  .agni-hero-visual{display:none;}
+  footer{padding:3rem 2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo-wrap" onclick="showPage('main')">
+    <div class="nav-logo">M<span>O</span>PR</div>
+  </div>
+  <ul class="nav-links">
+    <li><button class="nav-link-btn" onclick="scrollToSection('products')">Products</button></li>
+    <li><button class="nav-link-btn" onclick="scrollToSection('process')">Process</button></li>
+    <li><button class="nav-link-btn" onclick="scrollToSection('about')">About</button></li>
+    <li><button class="nav-link-btn" onclick="scrollToSection('reviews')">Reviews</button></li>
+    <li><button class="nav-link-btn" onclick="scrollToSection('contact')">Contact</button></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-brands">
+      <button class="sub-brand-btn mango-btn" onclick="showPage('mango')">🥭 Mango King</button>
+      <button class="sub-brand-btn agni-btn" onclick="showPage('agni')">🔥 Agni</button>
+    </div>
+    <button class="nav-cta nav-cta-dark" onclick="showPage('admin')">Admin ⚙</button>
+    <button class="nav-cta" onclick="openModal()">Sign In</button>
+  </div>
+</nav>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-logo">M<span>O</span>PR</div>
+    <div class="modal-subtitle">Your wellness journey starts here</div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab(event,'signin')">Sign In</button>
+      <button class="modal-tab" onclick="switchTab(event,'signup')">Create Account</button>
+    </div>
+    <div class="modal-form active" id="signin-form">
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" placeholder="Enter your password"></div>
+      <button class="modal-btn" onclick="handleSignIn()">Sign In →</button>
+      <div class="modal-divider">or</div>
+      <button class="modal-google">
+        <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.1 0 5.9 1.1 8.1 2.9l6.1-6.1C34.3 3 29.4 1 24 1 14.7 1 6.9 6.4 3.1 14.1l7.2 5.6C12.1 13.4 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.6 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.3 5.7C43.6 37.5 46.6 31.5 46.6 24.5z"/><path fill="#FBBC04" d="M10.3 28.5c-.6-1.7-.9-3.5-.9-5.5s.3-3.8.9-5.5L3.1 12C1.1 15.7 0 19.7 0 24s1.1 8.3 3.1 12l7.2-7.5z"/><path fill="#34A853" d="M24 47c5.4 0 10-1.8 13.3-4.8l-7.3-5.7c-1.8 1.2-4.2 2-6 2-6.4 0-11.9-3.9-13.7-9.4L3 34.1C6.9 41.6 14.7 47 24 47z"/></svg>
+        Continue with Google
+      </button>
+    </div>
+    <div class="modal-form" id="signup-form">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="Ravi"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Kumar"></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 98765 43210"></div>
+      <div class="form-group"><label>Password</label><input type="password" placeholder="Create a strong password"></div>
+      <button class="modal-btn" onclick="handleSignUp()">Create Account →</button>
+      <div class="modal-divider">or</div>
+      <button class="modal-google">
+        <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.1 0 5.9 1.1 8.1 2.9l6.1-6.1C34.3 3 29.4 1 24 1 14.7 1 6.9 6.4 3.1 14.1l7.2 5.6C12.1 13.4 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.6 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.3 5.7C43.6 37.5 46.6 31.5 46.6 24.5z"/><path fill="#FBBC04" d="M10.3 28.5c-.6-1.7-.9-3.5-.9-5.5s.3-3.8.9-5.5L3.1 12C1.1 15.7 0 19.7 0 24s1.1 8.3 3.1 12l7.2-7.5z"/><path fill="#34A853" d="M24 47c5.4 0 10-1.8 13.3-4.8l-7.3-5.7c-1.8 1.2-4.2 2-6 2-6.4 0-11.9-3.9-13.7-9.4L3 34.1C6.9 41.6 14.7 47 24 47z"/></svg>
+        Sign up with Google
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN PAGE ══ -->
+<div class="page active" id="page-main">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">100% Cold-Pressed · No Preservatives</span>
+    </div>
+    <h1>Nature's Finest,<br><em>Bottled with Love</em></h1>
+    <p class="hero-desc">At MOPR Juice Factory, we source the ripest, most vibrant fruits and vegetables to craft blends that nourish your body and delight your senses — every single sip.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="scrollToSection('products')">Explore Our Blends →</button>
+      <button class="btn-ghost" onclick="scrollToSection('process')">How We Make It</button>
+    </div>
+    <div class="hero-stats">
+      <div><span class="stat-num">40+</span><div class="stat-label">Unique Blends</div></div>
+      <div><span class="stat-num">12k</span><div class="stat-label">Happy Customers</div></div>
+      <div><span class="stat-num">100%</span><div class="stat-label">Natural Ingredients</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <svg class="hero-circles" viewBox="0 0 500 500">
+      <circle cx="250" cy="250" r="220" stroke-width="1" stroke-dasharray="12 10"/>
+      <circle cx="250" cy="250" r="165" stroke-width="0.6" stroke-dasharray="6 8"/>
+      <circle cx="250" cy="250" r="110" stroke-width="0.4"/>
+    </svg>
+    <div class="floating-tag tag1">
+      <div class="tag-icon" style="background:rgba(61,122,66,0.2);">🌿</div>
+      <span>Organic Certified</span>
+    </div>
+    <div class="floating-tag tag2">
+      <div class="tag-icon" style="background:rgba(232,160,32,0.15);">☀️</div>
+      <span>No Added Sugar</span>
+    </div>
+    <div class="floating-tag tag3">
+      <div class="tag-icon" style="background:rgba(61,122,66,0.15);">❄️</div>
+      <span>Cold-Pressed</span>
+    </div>
+    <div class="bottle-float">
+      <svg width="180" height="390" viewBox="0 0 180 390" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="72" y="0" width="36" height="5" rx="2.5" fill="#061008"/>
+        <rect x="70" y="4" width="40" height="4" rx="2" fill="#061008"/>
+        <rect x="72" y="7" width="36" height="3" rx="1.5" fill="#0E2210"/>
+        <rect x="68" y="9" width="44" height="20" rx="6" fill="url(#capG)"/>
+        <rect x="74" y="11" width="8" height="15" rx="4" fill="rgba(255,255,255,0.18)"/>
+        <path d="M68 27 Q65 35 55 55 L125 55 Q115 35 112 27 Z" fill="url(#neckG)"/>
+        <rect x="55" y="53" width="70" height="20" rx="2" fill="url(#neckG)"/>
+        <path d="M55 70 Q38 80 35 105 L145 105 Q142 80 125 70 Z" fill="url(#bodyG)"/>
+        <rect x="32" y="100" width="116" height="248" rx="12" fill="url(#bodyG)"/>
+        <rect x="32" y="336" width="116" height="18" rx="8" fill="url(#bodyG2)"/>
+        <path d="M32 105 Q28 120 28 200 Q28 290 32 320 L38 320 Q34 290 34 200 Q34 120 38 105 Z" fill="rgba(0,0,0,0.15)"/>
+        <path d="M148 105 Q152 120 152 200 Q152 290 148 320 L142 320 Q146 290 146 200 Q146 120 142 105 Z" fill="rgba(255,255,255,0.05)"/>
+        <path d="M48 112 Q46 200 48 320 Q52 322 58 320 Q56 200 58 112 Z" fill="rgba(255,255,255,0.1)" rx="5"/>
+        <!-- Label -->
+        <rect x="44" y="140" width="92" height="138" rx="8" fill="rgba(13,31,14,0.92)"/>
+        <rect x="44" y="140" width="92" height="138" rx="8" fill="none" stroke="rgba(82,168,90,0.3)" stroke-width="1"/>
+        <!-- Top gold strip -->
+        <rect x="44" y="140" width="92" height="14" rx="0" fill="rgba(232,160,32,0.9)" style="clip-path:inset(0 0 0 0 round 8px 8px 0 0)"/>
+        <text x="90" y="151" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7" font-weight="700" fill="#0D1F0E" letter-spacing="2">M O P R</text>
+        <!-- Label content -->
+        <text x="90" y="172" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="8" font-weight="600" fill="rgba(82,168,90,0.7)" letter-spacing="1.5">JUICE FACTORY</text>
+        <line x1="56" y1="178" x2="124" y2="178" stroke="rgba(82,168,90,0.2)" stroke-width="0.8"/>
+        <text x="90" y="204" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="24" font-weight="700" fill="#A8D8A2">Green</text>
+        <text x="90" y="220" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="10" font-style="italic" fill="rgba(82,168,90,0.6)">Vitality Blend</text>
+        <line x1="60" y1="228" x2="120" y2="228" stroke="rgba(82,168,90,0.15)" stroke-width="0.6"/>
+        <text x="90" y="244" text-anchor="middle" font-family="Outfit,sans-serif" font-size="7" fill="rgba(168,213,162,0.4)" letter-spacing="0.5">500ml · Cold Pressed</text>
+        <text x="68" y="258" text-anchor="middle" font-size="9">🌿</text>
+        <text x="90" y="258" text-anchor="middle" font-size="9">❄️</text>
+        <text x="112" y="258" text-anchor="middle" font-size="9">✓</text>
+        <ellipse cx="90" cy="352" rx="52" ry="5" fill="rgba(0,0,0,0.18)"/>
+        <rect x="34" y="315" width="112" height="28" rx="0" fill="rgba(0,40,0,0.2)"/>
+        <defs>
+          <linearGradient id="capG" x1="68" y1="0" x2="112" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#0A2210"/>
+            <stop offset="45%" stop-color="#163E1C"/>
+            <stop offset="100%" stop-color="#0A2210"/>
+          </linearGradient>
+          <linearGradient id="neckG" x1="55" y1="0" x2="125" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#0E2E14"/>
+            <stop offset="40%" stop-color="#1A5020"/>
+            <stop offset="100%" stop-color="#0E2E14"/>
+          </linearGradient>
+          <linearGradient id="bodyG" x1="32" y1="0" x2="148" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#0D2E10"/>
+            <stop offset="20%" stop-color="#165520"/>
+            <stop offset="48%" stop-color="#1E7028"/>
+            <stop offset="75%" stop-color="#165520"/>
+            <stop offset="100%" stop-color="#0D2E10"/>
+          </linearGradient>
+          <linearGradient id="bodyG2" x1="32" y1="0" x2="148" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#081808"/>
+            <stop offset="50%" stop-color="#122012"/>
+            <stop offset="100%" stop-color="#081808"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Cold-Pressed Daily</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Farm to Bottle</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Zero Preservatives</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Naturally Vegan</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Rich in Vitamins</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Sustainably Packed</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Cold-Pressed Daily</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Farm to Bottle</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Zero Preservatives</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Naturally Vegan</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Rich in Vitamins</span>
+    <span class="marquee-item"><span class="marquee-dot">✦</span> Sustainably Packed</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="section about" id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <svg class="about-rings" width="260" height="260" viewBox="0 0 260 260" fill="none">
+        <circle cx="130" cy="130" r="120" stroke="rgba(82,168,90,0.08)" stroke-width="1" stroke-dasharray="10 8"/>
+        <circle cx="130" cy="130" r="80" stroke="rgba(82,168,90,0.06)" stroke-width="0.5"/>
+        <circle cx="130" cy="130" r="40" fill="rgba(61,122,66,0.06)"/>
+      </svg>
+      <div class="about-big-logo">M<span>O</span>PR</div>
+      <div class="about-inner-card">
+        <div class="acard-row">
+          <div class="acard-title">Freshness Score</div>
+          <div class="acard-badge">Excellent</div>
+        </div>
+        <div class="acard-sub">Pressed within 24 hrs of harvest</div>
+        <div class="acard-bar"><div class="acard-fill"></div></div>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-title">Crafted with Passion,<br>Pressed with Purpose</h2>
+      <p>Founded in the lush gardens of Tamil Nadu, MOPR Juice Factory was born from a simple conviction — that real nutrition comes only from real ingredients. No shortcuts, no concentrates, no compromises.</p>
+      <p>Every bottle is a labour of love: hand-selected produce, cold-pressed within hours of harvest, sealed to preserve every enzyme and nutrient nature intended.</p>
+      <div class="about-pillars">
+        <div class="pillar"><div class="pillar-icon">🌱</div><h4>Organic Sourcing</h4><p>Partner farms with verified organic certification only.</p></div>
+        <div class="pillar"><div class="pillar-icon">❄️</div><h4>Cold-Pressed</h4><p>HPP cold-press preserves enzymes and vitamins intact.</p></div>
+        <div class="pillar"><div class="pillar-icon">♻️</div><h4>Eco Packaging</h4><p>100% recyclable glass and plant-based materials.</p></div>
+        <div class="pillar"><div class="pillar-icon">🔬</div><h4>Lab Tested</h4><p>Every batch tested for purity and nutrient density.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUB BRANDS -->
+<section class="sub-brands-section">
+  <div style="text-align:center;max-width:560px;margin:0 auto 3rem;">
+    <div class="section-label" style="justify-content:center;">Our Family of Brands</div>
+    <h2 class="section-title">Two Bold Sub-Brands,<br>One Pure Promise</h2>
+  </div>
+  <div class="sub-brands-grid">
+    <div class="sub-brand-card mango-card reveal" onclick="showPage('mango')">
+      <div class="sbc-bg">🥭</div>
+      <div class="sbc-badge">Sub Brand</div>
+      <div class="sbc-title">Mango King</div>
+      <div class="sbc-desc">Three premium mango juice variants — from thick pulp to refreshing no-sugar — celebrating India's king of fruits.</div>
+      <button class="sbc-btn">Explore Mango King →</button>
+    </div>
+    <div class="sub-brand-card agni-card reveal" onclick="showPage('agni')">
+      <div class="sbc-bg">🔥</div>
+      <div class="sbc-badge">Sub Brand</div>
+      <div class="sbc-title">Agni Soda</div>
+      <div class="sbc-desc">Bold craft soda blends — lemon, salt, pepper, and sugar variants — with a fiery personality that ignites every sip.</div>
+      <button class="sbc-btn">Explore Agni →</button>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
+  <div class="products-header reveal">
+    <div>
+      <div class="section-label">Our Blends</div>
+      <h2 class="section-title">Discover Our<br><span style="font-style:italic;color:var(--citrus)">Signature Collection</span></h2>
+    </div>
+    <div style="text-align:right;">
+      <p>Each blend is crafted for a specific intention — energy, immunity, detox, or pure refreshment.</p>
+      <br><a href="#" class="see-all">View All Products →</a>
+    </div>
+  </div>
+  <div class="products-grid">
+    <div class="product-card reveal" onclick="showPage('payment')">
+      <div class="pc-bg card-green"><div class="pc-emoji">🥬</div><div class="pc-info"><div class="pc-name">Green Vitality</div><div class="pc-desc">Spinach · Cucumber · Ginger · Apple</div><div class="pc-bottom"><div class="pc-price">₹149</div><div class="pc-add">+</div></div></div></div>
+    </div>
+    <div class="product-card reveal" onclick="showPage('payment')">
+      <div class="pc-bg card-orange"><div class="pc-emoji">🍊</div><div class="pc-info"><div class="pc-name">Citrus Surge</div><div class="pc-desc">Orange · Carrot · Turmeric · Lemon</div><div class="pc-bottom"><div class="pc-price">₹129</div><div class="pc-add">+</div></div></div></div>
+    </div>
+    <div class="product-card reveal" onclick="showPage('payment')">
+      <div class="pc-bg card-red"><div class="pc-emoji">🍇</div><div class="pc-info"><div class="pc-name">Berry Shield</div><div class="pc-desc">Pomegranate · Beet · Grape · Mint</div><div class="pc-bottom"><div class="pc-price">₹169</div><div class="pc-add">+</div></div></div></div>
+    </div>
+    <div class="product-card reveal" onclick="showPage('payment')">
+      <div class="pc-bg card-yellow"><div class="pc-emoji">🍍</div><div class="pc-info"><div class="pc-name">Tropical Calm</div><div class="pc-desc">Pineapple · Mango · Coconut · Lime</div><div class="pc-bottom"><div class="pc-price">₹159</div><div class="pc-add">+</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section" id="process">
+  <div style="text-align:center;max-width:560px;margin:0 auto;" class="reveal">
+    <div class="section-label" style="justify-content:center;">Our Process</div>
+    <h2 class="section-title">From Farm to Your<br>Glass in 24 Hours</h2>
+  </div>
+  <div class="process-grid">
+    <div class="process-step reveal">
+      <span class="step-num">01</span>
+      <div class="step-icon-wrap">🌿</div>
+      <h3>Careful Harvesting</h3>
+      <p>We partner with certified organic farms and hand-pick only the finest, ripest produce at peak nutritional value.</p>
+      <div class="step-connector"></div>
+    </div>
+    <div class="process-step reveal">
+      <span class="step-num">02</span>
+      <div class="step-icon-wrap">🧹</div>
+      <h3>Gentle Washing</h3>
+      <p>Produce is triple-washed with purified water, removing any surface residue without stripping natural goodness.</p>
+      <div class="step-connector"></div>
+    </div>
+    <div class="process-step reveal">
+      <span class="step-num">03</span>
+      <div class="step-icon-wrap">⚙️</div>
+      <h3>Cold-Press Extraction</h3>
+      <p>Our hydraulic cold presses extract maximum juice under zero heat — enzymes, vitamins, and flavour fully preserved.</p>
+      <div class="step-connector"></div>
+    </div>
+    <div class="process-step reveal">
+      <span class="step-num">04</span>
+      <div class="step-icon-wrap">🍶</div>
+      <h3>Bottled Fresh</h3>
+      <p>Sealed in eco-glass bottles immediately after pressing. No air, no light, no compromise — straight to your door.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="reviews">
+  <div style="text-align:center;max-width:540px;margin:0 auto;" class="reveal">
+    <div class="section-label" style="justify-content:center;">Testimonials</div>
+    <h2 class="section-title">What Our Customers<br>Are Saying</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="tcard reveal"><div class="tcard-stars">★★★★★</div><q>The Green Vitality blend has completely transformed my mornings. I feel energised and clear-headed all day — nothing I've tried comes close.</q><div class="tcard-author"><div class="tcard-avatar av1">PK</div><div><div class="tcard-name">Priya Krishnamurthy</div><div class="tcard-role">Yoga Instructor, Chennai</div></div></div></div>
+    <div class="tcard reveal"><div class="tcard-stars">★★★★★</div><q>I've tried many juice brands but MOPR stands apart. You can taste the freshness — it's almost like drinking straight from the garden.</q><div class="tcard-author"><div class="tcard-avatar av2">AR</div><div><div class="tcard-name">Arjun Raghavendra</div><div class="tcard-role">Software Engineer, Madurai</div></div></div></div>
+    <div class="tcard reveal"><div class="tcard-stars">★★★★★</div><q>As a nutritionist, I'm very particular about what I recommend. MOPR's cold-pressed range is one of the few I trust wholeheartedly for my clients.</q><div class="tcard-author"><div class="tcard-avatar av3">DM</div><div><div class="tcard-name">Dr. Deepa Muthukumar</div><div class="tcard-role">Clinical Nutritionist, Coimbatore</div></div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div style="text-align:center;max-width:560px;margin:0 auto 0;" class="reveal">
+    <div class="section-label" style="justify-content:center;">Get In Touch</div>
+    <h2 class="section-title">We'd Love to<br>Hear From You</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info-card reveal">
+      <h3>MOPR Juice Factory</h3>
+      <p>Reach out for orders, partnerships, wholesale enquiries, or just to say hello.</p>
+      <div class="contact-item"><div class="contact-icon">📧</div><div><h4>Email Us</h4><p><a href="mailto:hello@moprjuice.com">hello@moprjuice.com</a></p><p style="font-size:0.8rem;color:var(--text-dim);margin-top:0.2rem;"><a href="mailto:orders@moprjuice.com" style="color:var(--text-dim);">orders@moprjuice.com</a></p></div></div>
+      <div class="contact-item"><div class="contact-icon">📞</div><div><h4>Call Us</h4><p>+91 452 234 5678</p><p style="font-size:0.8rem;color:var(--text-dim);margin-top:0.2rem;">Mon–Sat, 9 AM – 6 PM IST</p></div></div>
+      <div class="contact-item"><div class="contact-icon">📱</div><div><h4>WhatsApp</h4><p>+91 98765 43210</p></div></div>
+      <div class="contact-item"><div class="contact-icon">📍</div><div><h4>Visit Us</h4><p>14 Green Valley Road,<br>Madurai – 625001, Tamil Nadu</p></div></div>
+    </div>
+    <div class="contact-form-wrap reveal">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="Ravi"></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Kumar"></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="ravi@example.com"></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91 98765 43210"></div>
+      <div class="form-group">
+        <label>Subject</label>
+        <select>
+          <option>General Enquiry</option>
+          <option>Order Support</option>
+          <option>Wholesale / Bulk Order</option>
+          <option>Partnership</option>
+          <option>Mango King Enquiry</option>
+          <option>Agni Soda Enquiry</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message</label><textarea placeholder="Tell us how we can help you..."></textarea></div>
+      <button class="form-submit" onclick="alert('Thank you! We\'ll get back to you within 24 hours. 🌿')">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg-text">MOPR</div>
+  <div style="position:relative;z-index:2;" class="reveal">
+    <div class="section-label" style="justify-content:center;">Get Started</div>
+    <h2 class="section-title">Ready to Feel<br><span style="font-style:italic;color:var(--citrus)">Truly Alive?</span></h2>
+    <p>Order your first MOPR Juice Bundle today and experience nature's finest, delivered chilled to your door.</p>
+    <div class="cta-buttons">
+      <button class="btn-primary" onclick="showPage('payment')">Shop All Blends →</button>
+      <button class="btn-outline-cream" onclick="scrollToSection('about')">Learn Our Story</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">M<span>O</span>PR</div>
+      <p>Pure cold-pressed juices crafted with love from organic farms across South India. Nourish your body the way nature intended.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <a href="#">Green Blends</a>
+      <a href="#">Citrus Blends</a>
+      <a href="#">Berry Blends</a>
+      <button class="footer-link" onclick="showPage('mango')">Mango King 🥭</button>
+      <button class="footer-link" onclick="showPage('agni')">Agni Soda 🔥</button>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">Our Story</a>
+      <a href="#">The Process</a>
+      <a href="#">Sustainability</a>
+      <a href="#">Blog</a>
+      <button class="footer-link" onclick="showPage('admin')">Admin Panel</button>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:hello@moprjuice.com">hello@moprjuice.com</a>
+      <a href="#">+91 452 234 5678</a>
+      <a href="#">Shipping Info</a>
+      <a href="#">Track Order</a>
+      <button class="footer-link" onclick="openModal()">Sign In / Sign Up</button>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 MOPR Juice Factory. All rights reserved. Made with 🌿 in Tamil Nadu.</p>
+    <div class="social-links">
+      <a href="#" class="social-link">in</a>
+      <a href="#" class="social-link">ig</a>
+      <a href="#" class="social-link">tw</a>
+      <a href="#" class="social-link">yt</a>
+    </div>
+  </div>
+</footer>
+</div><!-- end page-main -->
+
+
+<!-- ══ ADMIN PAGE ══ -->
+<div class="page admin-page" id="page-admin">
+  <div class="admin-nav">
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <div class="admin-nav-logo">M<span>O</span>PR <span style="font-family:'Outfit',sans-serif;font-size:0.72rem;color:var(--text-dim);font-weight:400;">Admin</span></div>
+      <span class="admin-badge">Super Admin</span>
+    </div>
+    <div class="admin-nav-right">
+      <span style="font-size:0.8rem;color:var(--text-dim);">admin@moprjuice.com</span>
+      <button class="admin-back-btn" onclick="showPage('main')">← Back to Site</button>
+    </div>
+  </div>
+  <div class="admin-body">
+    <div class="admin-sidebar">
+      <div class="admin-sidebar-label">Dashboard</div>
+      <button class="admin-sidebar-link active"><span>📊</span> Overview</button>
+      <button class="admin-sidebar-link"><span>📦</span> Orders</button>
+      <button class="admin-sidebar-link"><span>👥</span> Customers</button>
+      <div class="admin-sidebar-label" style="margin-top:1rem;">Inventory</div>
+      <button class="admin-sidebar-link"><span>🥤</span> MOPR Juices</button>
+      <button class="admin-sidebar-link" onclick="showPage('mango')"><span>🥭</span> Mango King</button>
+      <button class="admin-sidebar-link" onclick="showPage('agni')"><span>🔥</span> Agni Soda</button>
+      <div class="admin-sidebar-label" style="margin-top:1rem;">Settings</div>
+      <button class="admin-sidebar-link"><span>💳</span> Payments</button>
+      <button class="admin-sidebar-link"><span>⚙️</span> Site Config</button>
+    </div>
+    <div class="admin-content">
+      <div class="admin-header">
+        <h1>Good morning, Admin 👋</h1>
+        <p>Here's what's happening at MOPR Juice Factory today.</p>
+      </div>
+      <div class="admin-stats-grid">
+        <div class="admin-stat"><div class="admin-stat-label">Revenue (May)</div><div class="admin-stat-val">₹2.4L</div><div class="admin-stat-trend trend-up">↑ 18% vs last month</div></div>
+        <div class="admin-stat"><div class="admin-stat-label">Orders Today</div><div class="admin-stat-val">47</div><div class="admin-stat-trend trend-up">↑ 12 from yesterday</div></div>
+        <div class="admin-stat"><div class="admin-stat-label">Active Customers</div><div class="admin-stat-val">1,284</div><div class="admin-stat-trend trend-up">↑ 94 new this week</div></div>
+        <div class="admin-stat"><div class="admin-stat-label">Stock Alerts</div><div class="admin-stat-val">3</div><div class="admin-stat-trend trend-down">Berry Shield low</div></div>
+      </div>
+      <div class="admin-table-card">
+        <div class="admin-table-head"><h3>Recent Orders</h3><button class="admin-action-btn">View All →</button></div>
+        <table>
+          <thead><tr><th>Order ID</th><th>Customer</th><th>Products</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>#ORD-1042</td><td>Priya K.</td><td>Green Vitality ×2</td><td>₹298</td><td><span class="status-badge status-delivered">Delivered</span></td><td><button class="admin-action-btn">View</button></td></tr>
+            <tr><td>#ORD-1041</td><td>Arjun R.</td><td>Citrus Surge ×3</td><td>₹556</td><td><span class="status-badge status-processing">Processing</span></td><td><button class="admin-action-btn">View</button></td></tr>
+            <tr><td>#ORD-1040</td><td>Meena S.</td><td>Mango King Pulp ×2</td><td>₹358</td><td><span class="status-badge status-delivered">Delivered</span></td><td><button class="admin-action-btn">View</button></td></tr>
+            <tr><td>#ORD-1039</td><td>Vikram N.</td><td>Agni Lemon ×4</td><td>₹396</td><td><span class="status-badge status-processing">Processing</span></td><td><button class="admin-action-btn">View</button></td></tr>
+            <tr><td>#ORD-1038</td><td>Dr. Deepa M.</td><td>Green Vitality ×5</td><td>₹1063</td><td><span class="status-badge status-pending">Pending</span></td><td><button class="admin-action-btn">View</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="admin-table-card">
+        <div class="admin-table-head"><h3>Inventory Status</h3><button class="admin-action-btn">Manage Stock →</button></div>
+        <table>
+          <thead><tr><th>Product</th><th>Brand</th><th>SKU</th><th>Stock</th><th>Price</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Green Vitality 500ml</td><td>MOPR</td><td>MOPR-GV-500</td><td>248 units</td><td>₹149</td><td><span class="status-badge status-delivered">In Stock</span></td></tr>
+            <tr><td>Berry Shield 500ml</td><td>MOPR</td><td>MOPR-BS-500</td><td>14 units</td><td>₹169</td><td><span class="status-badge status-pending">Low Stock</span></td></tr>
+            <tr><td>Mango Pulp King 300ml</td><td>Mango King</td><td>MK-MP-300</td><td>96 units</td><td>₹179</td><td><span class="status-badge status-delivered">In Stock</span></td></tr>
+            <tr><td>Agni Lemon Soda 250ml</td><td>Agni</td><td>AG-LS-250</td><td>312 units</td><td>₹99</td><td><span class="status-badge status-delivered">In Stock</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ PAYMENT PAGE ══ -->
+<div class="page payment-page" id="page-payment">
+  <div class="payment-nav">
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <button onclick="showPage('main')" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--leaf-bright);">←</button>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--cream);">M<span style="color:var(--citrus)">O</span>PR</div>
+    </div>
+    <div class="payment-steps">
+      <div class="pstep done"><div class="pstep-num">✓</div> Cart</div>
+      <div class="pstep-line"></div>
+      <div class="pstep active"><div class="pstep-num">2</div> Payment</div>
+      <div class="pstep-line"></div>
+      <div class="pstep"><div class="pstep-num">3</div> Confirmation</div>
+    </div>
+    <div style="width:120px;"></div>
+  </div>
+  <div class="payment-body">
+    <div class="payment-main">
+      <div class="payment-card">
+        <h3>🏠 Delivery Address</h3>
+        <div class="form-row">
+          <div class="form-group"><label>Full Name</label><input type="text" placeholder="Ravi Kumar"></div>
+          <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 98765 43210"></div>
+        </div>
+        <div class="form-group"><label>Address Line 1</label><input type="text" placeholder="14, Green Valley Road"></div>
+        <div class="form-group"><label>Address Line 2</label><input type="text" placeholder="Apt, suite (optional)"></div>
+        <div class="form-row">
+          <div class="form-group"><label>City</label><input type="text" placeholder="Madurai"></div>
+          <div class="form-group"><label>Pincode</label><input type="text" placeholder="625001"></div>
+        </div>
+        <div class="form-group"><label>State</label><select><option>Tamil Nadu</option><option>Karnataka</option><option>Kerala</option><option>Andhra Pradesh</option></select></div>
+      </div>
+      <div class="payment-card">
+        <h3>💳 Payment Method</h3>
+        <div class="pay-methods">
+          <button class="pay-method-btn selected" onclick="selectPayMethod(this)">💳 Card</button>
+          <button class="pay-method-btn" onclick="selectPayMethod(this)">📱 UPI</button>
+          <button class="pay-method-btn" onclick="selectPayMethod(this)">🏦 Net Banking</button>
+          <button class="pay-method-btn" onclick="selectPayMethod(this)">💰 COD</button>
+        </div>
+        <div class="card-fields" id="card-fields">
+          <div class="form-group"><label>Card Number</label><input type="text" placeholder="1234 5678 9012 3456" maxlength="19"></div>
+          <div class="form-row">
+            <div class="form-group"><label>Expiry</label><input type="text" placeholder="MM / YY"></div>
+            <div class="form-group"><label>CVV</label><input type="text" placeholder="•••" maxlength="4"></div>
+          </div>
+          <div class="form-group"><label>Name on Card</label><input type="text" placeholder="RAVI KUMAR"></div>
+        </div>
+      </div>
+      <div class="payment-card">
+        <h3>🎁 Promo Code</h3>
+        <div style="display:flex;gap:0.8rem;">
+          <input type="text" placeholder="Enter promo code (try: MOPR10)" style="flex:1;padding:0.85rem 1.1rem;border:1px solid rgba(82,168,90,0.15);border-radius:4px;font-family:'Outfit',sans-serif;font-size:0.9rem;color:var(--cream);background:var(--forest-rich);outline:none;">
+          <button style="background:var(--citrus);color:var(--forest);border:none;border-radius:4px;padding:0 1.5rem;font-family:'Outfit',sans-serif;font-weight:600;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;" onclick="applyPromo()">Apply</button>
+        </div>
+      </div>
+    </div>
+    <div class="order-summary">
+      <h3>Order Summary</h3>
+      <div class="order-item"><div class="order-item-img" style="background:rgba(20,60,16,0.5);">🥬</div><div class="order-item-info"><div class="order-item-name">Green Vitality</div><div class="order-item-sub">500ml · ×2</div></div><div class="order-item-price">₹298</div></div>
+      <div class="order-item"><div class="order-item-img" style="background:rgba(60,30,0,0.5);">🍊</div><div class="order-item-info"><div class="order-item-name">Citrus Surge</div><div class="order-item-sub">500ml · ×1</div></div><div class="order-item-price">₹129</div></div>
+      <div class="order-item"><div class="order-item-img" style="background:rgba(30,10,0,0.5);">🍍</div><div class="order-item-info"><div class="order-item-name">Tropical Calm</div><div class="order-item-sub">500ml · ×1</div></div><div class="order-item-price">₹159</div></div>
+      <hr style="border:none;border-top:1px solid var(--border);margin:1rem 0;">
+      <div class="order-line"><span>Subtotal</span><span>₹586</span></div>
+      <div class="order-line"><span>Delivery</span><span style="color:var(--leaf-bright);">FREE</span></div>
+      <div class="order-line"><span>Discount</span><span id="discount-line" style="color:var(--leaf-bright);">—</span></div>
+      <div class="order-line total"><span>Total</span><span class="order-total-price" id="total-price">₹586</span></div>
+      <button class="pay-btn" onclick="confirmPayment()">🔒 Pay Securely →</button>
+      <div class="secure-note">🔒 256-bit SSL encrypted · Razorpay</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ MANGO KING PAGE ══ -->
+<div class="page mango-page" id="page-mango">
+  <nav class="mango-nav">
+    <div class="mango-logo">Mango King<small>by MOPR Juice Factory</small></div>
+    <div class="mango-nav-links"><a href="#">Products</a><a href="#">About</a><a href="#">Nutrition</a></div>
+    <button class="mango-back-btn" onclick="showPage('main')">← Back to MOPR</button>
+  </nav>
+  <section class="mango-hero">
+    <div class="mango-hero-left">
+      <div style="display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:2rem;background:rgba(255,140,0,0.08);border:1px solid rgba(255,140,0,0.2);padding:0.4rem 1rem;border-radius:4px;">
+        <span style="font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,140,0,0.7);">100% Alphonso · No Artificial Flavour</span>
+      </div>
+      <h1>The King<br><em>of Mangoes,</em><br>Bottled.</h1>
+      <p>Three premium mango juice expressions — from the richest pulp to the purest no-sugar variant — celebrating India's most beloved fruit.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <button style="background:var(--mango);color:var(--forest);border:none;border-radius:4px;padding:0.9rem 2rem;font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="showPage('payment')">Order Now →</button>
+        <button style="background:none;border:1px solid rgba(255,140,0,0.25);color:rgba(255,140,0,0.6);border-radius:4px;padding:0.9rem 1.8rem;font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;">Our Variants</button>
+      </div>
+    </div>
+    <div class="mango-hero-right"><div class="mango-big-emoji">🥭</div></div>
+  </section>
+  <section class="mango-products-section">
+    <div class="mango-section-label">Our Variants</div>
+    <h2 class="mango-section-title">Three Ways to Love<br>the King of Fruits</h2>
+    <div class="mango-products-grid">
+      <div class="mango-card" onclick="showPage('payment')"><div class="mango-card-bg bg-mango-1"><div class="mango-card-emoji">🥭</div><div class="mango-card-tag">Variant 01</div><div class="mango-card-name">Pulp Mango</div><div class="mango-card-desc">Thick, luscious Alphonso pulp — zero dilution, pure fruit.</div><div class="mango-card-footer"><div class="mango-card-price">₹179 / 300ml</div><button class="mango-add-btn">+</button></div></div></div>
+      <div class="mango-card" onclick="showPage('payment')"><div class="mango-card-bg bg-mango-2"><div class="mango-card-emoji">🍹</div><div class="mango-card-tag">Variant 02</div><div class="mango-card-name">Classic Mango</div><div class="mango-card-desc">Perfectly balanced between pulp and freshness, lightly sweetened.</div><div class="mango-card-footer"><div class="mango-card-price">₹149 / 300ml</div><button class="mango-add-btn">+</button></div></div></div>
+      <div class="mango-card" onclick="showPage('payment')"><div class="mango-card-bg bg-mango-3"><div class="mango-card-emoji">🌿</div><div class="mango-card-tag">Variant 03</div><div class="mango-card-name">Sugar-Free Mango</div><div class="mango-card-desc">All the sweetness of fresh mango with zero added sugar.</div><div class="mango-card-footer"><div class="mango-card-price">₹159 / 300ml</div><button class="mango-add-btn">+</button></div></div></div>
+    </div>
+  </section>
+  <section class="mango-info-section">
+    <div style="text-align:center;max-width:500px;margin:0 auto 3rem;"><h2 style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:white;letter-spacing:-0.02em;">Why Mango King?</h2></div>
+    <div class="mango-info-grid">
+      <div class="mango-info-card"><div class="mango-info-icon">👑</div><h4>Alphonso Sourced</h4><p>Only Ratnagiri and Devgad Alphonso mangoes — India's most prized variety.</p></div>
+      <div class="mango-info-card"><div class="mango-info-icon">🍃</div><h4>No Concentrates</h4><p>Every bottle made from fresh, whole mangoes — no concentrates, ever.</p></div>
+      <div class="mango-info-card"><div class="mango-info-icon">🌡️</div><h4>Cold-Pressed</h4><p>Pressed at low temperature to preserve enzymes, Vitamin C, and flavour.</p></div>
+    </div>
+  </section>
+  <section style="background:#150800;padding:6rem 5rem;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,140,0,0.08),transparent 70%);pointer-events:none;"></div>
+    <div style="position:relative;z-index:2;">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:white;letter-spacing:-0.03em;margin-bottom:1rem;">Taste the <em style="font-style:italic;color:var(--mango);">King.</em></h2>
+      <p style="color:rgba(255,255,255,0.4);max-width:400px;margin:0 auto 2.5rem;line-height:1.8;">Free delivery on orders above ₹499.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <button style="background:var(--mango);color:var(--forest);border:none;border-radius:4px;padding:0.9rem 2.2rem;font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;" onclick="showPage('payment')">Shop Mango King →</button>
+        <button onclick="showPage('main')" style="background:none;border:1px solid rgba(255,140,0,0.2);color:rgba(255,140,0,0.5);border-radius:4px;padding:0.9rem 1.8rem;font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;">← Back to MOPR</button>
+      </div>
+    </div>
+  </section>
+  <footer style="background:#0A0300;padding:2rem 4rem;border-top:1px solid rgba(255,140,0,0.08);">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+      <div><div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--mango);">Mango King</div><p style="font-size:0.8rem;color:rgba(255,255,255,0.25);margin-top:0.4rem;">A MOPR Juice Factory brand.</p></div>
+      <button onclick="showPage('main')" style="background:none;border:none;color:rgba(255,140,0,0.4);font-size:0.82rem;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:0.06em;text-transform:uppercase;">← MOPR Main Site</button>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ══ AGNI PAGE ══ -->
+<div class="page agni-page" id="page-agni">
+  <nav class="agni-nav">
+    <div class="agni-logo">AGNI<small>by MOPR</small></div>
+    <div class="agni-nav-links"><a href="#">Flavours</a><a href="#">Story</a><a href="#">Find Us</a></div>
+    <button class="agni-back-btn" onclick="showPage('main')">← Back to MOPR</button>
+  </nav>
+  <section class="agni-hero">
+    <div class="agni-hero-bg"></div>
+    <div class="agni-hero-sparks" id="agni-sparks"></div>
+    <div class="agni-hero-content">
+      <div class="agni-badge">🔥 Craft Soda · Bold Flavours · Zero Artificial</div>
+      <h1>Born from<br><em>Fire.</em><br>Made to Fizz.</h1>
+      <p>Agni is MOPR's bold craft soda line — intense natural flavours that ignite your senses. Four fierce variants, one fiery character.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <button class="btn-agni" onclick="showPage('payment')">Try Agni Soda →</button>
+        <button style="background:none;border:1px solid rgba(229,57,53,0.2);color:rgba(229,57,53,0.5);border-radius:4px;padding:0.9rem 1.8rem;font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;">Our Flavours</button>
+      </div>
+    </div>
+    <div class="agni-hero-visual">🔥</div>
+  </section>
+  <section class="agni-products-section">
+    <div class="agni-section-label">Our Flavours</div>
+    <h2 class="agni-section-title">Four Flavours,<br><em>One Fiery Soul</em></h2>
+    <div class="agni-products-grid">
+      <div class="agni-card" onclick="showPage('payment')"><div class="agni-card-inner bg-agni-1"><div class="agni-card-emoji">🍋</div><div class="agni-card-flavor">Flavour 01</div><div class="agni-card-name">Lemon Agni</div><div class="agni-card-desc">Sharp, zesty lemon with a fiery fizz kick. The classic reinvented.</div><div class="agni-card-row"><div class="agni-card-price">₹99</div><button class="agni-add">+</button></div></div></div>
+      <div class="agni-card" onclick="showPage('payment')"><div class="agni-card-inner bg-agni-2"><div class="agni-card-emoji">🧂</div><div class="agni-card-flavor">Flavour 02</div><div class="agni-card-name">Salt Agni</div><div class="agni-card-desc">Black salt and mineral burst soda — bold, earthy, electrolyte-rich.</div><div class="agni-card-row"><div class="agni-card-price">₹99</div><button class="agni-add">+</button></div></div></div>
+      <div class="agni-card" onclick="showPage('payment')"><div class="agni-card-inner bg-agni-3"><div class="agni-card-emoji">🌶️</div><div class="agni-card-flavor">Flavour 03</div><div class="agni-card-name">Pepper Agni</div><div class="agni-card-desc">Black pepper spice with soda — daring, warming fizz that bites back.</div><div class="agni-card-row"><div class="agni-card-price">₹109</div><button class="agni-add">+</button></div></div></div>
+      <div class="agni-card" onclick="showPage('payment')"><div class="agni-card-inner bg-agni-4"><div class="agni-card-emoji">🍬</div><div class="agni-card-flavor">Flavour 04</div><div class="agni-card-name">Sweet Agni</div><div class="agni-card-desc">Jaggery-sweetened soda — naturally sweet with caramel depth.</div><div class="agni-card-row"><div class="agni-card-price">₹99</div><button class="agni-add">+</button></div></div></div>
+    </div>
+  </section>
+  <section class="agni-features">
+    <div style="text-align:center;margin-bottom:3rem;"><h2 style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;color:white;letter-spacing:-0.02em;">What Makes Agni Different?</h2></div>
+    <div class="agni-features-grid">
+      <div class="agni-feature"><div class="agni-feature-icon">⚡</div><h4>Naturally Carbonated</h4><p>Force-carbonated with filtered CO₂ — no artificial pressurisation. Clean, sharp fizz every time.</p></div>
+      <div class="agni-feature"><div class="agni-feature-icon">🌿</div><h4>Real Ingredients</h4><p>Every flavour uses real botanicals, natural salt, or actual lemon — never artificial extracts.</p></div>
+      <div class="agni-feature"><div class="agni-feature-icon">🔥</div><h4>The Agni Spirit</h4><p>Named for the Sanskrit god of fire — each sip is meant to awaken, energise, and ignite your day.</p></div>
+    </div>
+  </section>
+  <section style="background:#0A0101;padding:6rem 5rem;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(229,57,53,0.1),transparent 70%);pointer-events:none;"></div>
+    <div style="position:relative;z-index:2;">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:white;letter-spacing:-0.03em;margin-bottom:1rem;">Feel the <em style="font-style:italic;color:var(--agni);">Agni.</em></h2>
+      <p style="color:rgba(255,255,255,0.35);max-width:400px;margin:0 auto 2.5rem;line-height:1.8;">Order our Agni Soda variety pack — try all four flavours and find your fire.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn-agni" onclick="showPage('payment')">Order Agni Pack →</button>
+        <button onclick="showPage('main')" style="background:none;border:1px solid rgba(229,57,53,0.15);color:rgba(229,57,53,0.45);border-radius:4px;padding:0.9rem 1.8rem;font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;">← Back to MOPR</button>
+      </div>
+    </div>
+  </section>
+  <footer style="background:#060101;padding:2rem 4rem;border-top:1px solid rgba(229,57,53,0.08);">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+      <div><div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--agni);letter-spacing:0.06em;">AGNI</div><p style="font-size:0.8rem;color:rgba(255,255,255,0.2);margin-top:0.4rem;">A MOPR Juice Factory brand.</p></div>
+      <button onclick="showPage('main')" style="background:none;border:none;color:rgba(229,57,53,0.35);font-size:0.82rem;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:0.06em;text-transform:uppercase;">← MOPR Main</button>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ══ JAVASCRIPT ══ -->
+<script>
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('main-nav').style.display=(name==='admin'||name==='mango'||name==='agni')?'none':'flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function scrollToSection(id){
+  showPage('main');
+  setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});},120);
+}
+function openModal(){document.getElementById('authModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('authModal').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('authModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+function switchTab(e,tab){
+  document.querySelectorAll('.modal-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.modal-form').forEach(f=>f.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(tab+'-form').classList.add('active');
+}
+function handleSignIn(){closeModal();showToast('Welcome back to MOPR! 🌿');}
+function handleSignUp(){closeModal();showToast('Account created! Welcome to the MOPR family 🌿');}
+function selectPayMethod(btn){
+  document.querySelectorAll('.pay-method-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const cf=document.getElementById('card-fields');
+  if(cf)cf.style.display=btn.textContent.includes('Card')?'flex':'none';
+}
+let promoApplied=false;
+function applyPromo(){
+  if(!promoApplied){
+    document.getElementById('discount-line').textContent='−₹58';
+    document.getElementById('total-price').textContent='₹528';
+    promoApplied=true;
+    showToast('Promo code applied! 10% off 🎉');
+  }
+}
+function confirmPayment(){showToast('Payment confirmed! Your order is on its way 🌿🚚');setTimeout(()=>showPage('main'),2000);}
+function showToast(msg){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--forest-rich);color:var(--cream);padding:1rem 2rem;border-radius:4px;border:1px solid var(--border);font-size:0.88rem;font-family:"Outfit",sans-serif;z-index:9999;box-shadow:0 8px 30px rgba(0,0,0,0.4);white-space:nowrap;';
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+// Agni sparks
+function createSparks(){
+  const c=document.getElementById('agni-sparks');
+  if(!c)return;
+  const colors=['#E53935','#FF6D00','#FFCA28','#FF8F00'];
+  for(let i=0;i<40;i++){
+    const s=document.createElement('div');
+    s.className='spark';
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*2}s;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;`;
+    c.appendChild(s);
+  }
+}
+createSparks();
+// Scroll reveal
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*80);
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+// Card formatting
+document.addEventListener('input',function(e){
+  if(e.target.placeholder&&e.target.placeholder.includes('1234')){
+    let v=e.target.value.replace(/\D/g,'').substring(0,16);
+    e.target.value=v.replace(/(.{4})/g,'$1 ').trim();
+  }
+});
+</script>
+</body>
+</html>
